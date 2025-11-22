@@ -27,15 +27,15 @@ app.use('/api/projects', projectsRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // Serve admin panel
-app.use('/admin', express.static(path.join(__dirname, '../admin')));
+app.use('/admin', express.static(path.join(__dirname, '../dist/admin')));
 
 // Redirect /admin e /admin/ to index.html (login)
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, '../admin/index.html'));
+  res.sendFile(path.join(__dirname, '../dist/admin/index.html'));
 });
 
 app.get('/admin/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../admin/index.html'));
+  res.sendFile(path.join(__dirname, '../dist/admin/index.html'));
 });
 
 

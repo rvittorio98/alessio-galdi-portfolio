@@ -58,5 +58,15 @@ if (fs.existsSync(path.join(srcDir, 'images'))) {
   console.log('✓ Immagini copiate');
 }
 
+// 5. Copia Admin Panel
+const adminDir = path.join(__dirname, '../admin');
+if (fs.existsSync(adminDir)) {
+  fs.copySync(
+    adminDir,
+    path.join(distDir, 'admin')
+  );
+  console.log('✓ Admin panel copiato');
+}
+
 console.log('\n✅ Build completato! File statici in dist/');
 console.log('📝 Le pagine dei progetti vengono servite dinamicamente dal server\n');
