@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Admin Panel</title>
-  <link rel="stylesheet" href="assets/admin.css">
+  <link rel="stylesheet" href="/admin/assets/admin.css">
   <link rel="stylesheet" href="assets/sortable.css">
   <link rel="stylesheet" href="assets/editor.css">
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
+
 <body class="dashboard-page">
   <header class="admin-header">
     <div class="header-content">
@@ -69,7 +71,8 @@
           <label for="mainImage">Immagine Principale *</label>
           <div class="input-with-button">
             <input type="text" id="mainImage" name="mainImage" required placeholder="URL immagine o carica...">
-            <button type="button" class="btn btn-secondary btn-sm" onclick="window.uploadImageForSection(this)">📷 Upload Immagine</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="window.uploadImageForSection(this)">📷
+              Upload Immagine</button>
           </div>
         </div>
 
@@ -91,4 +94,5 @@
 
   <script src="assets/admin.js"></script>
 </body>
+
 </html>

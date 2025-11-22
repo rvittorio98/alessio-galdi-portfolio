@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login - Alessio Galdi Portfolio</title>
-  <link rel="stylesheet" href="assets/admin.css">
+  <link rel="stylesheet" href="/admin/assets/admin.css">
 </head>
+
 <body class="login-page">
   <div class="login-container">
     <div class="login-card">
       <h1 class="login-title">Admin Panel</h1>
       <p class="login-subtitle">Alessio Galdi Portfolio</p>
-      
+
       <form id="loginForm" class="login-form">
         <div class="form-group">
           <label for="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            name="password" 
-            required 
-            autocomplete="current-password"
-            placeholder="Inserisci la password"
-          >
+          <input type="password" id="password" name="password" required autocomplete="current-password"
+            placeholder="Inserisci la password">
         </div>
 
         <div id="errorMessage" class="error-message"></div>
@@ -44,15 +40,15 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token })
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.valid) {
-          window.location.href = '/admin/dashboard.html';
-        }
-      })
-      .catch(() => {
-        localStorage.removeItem('adminToken');
-      });
+        .then(res => res.json())
+        .then(data => {
+          if (data.valid) {
+            window.location.href = '/admin/dashboard.html';
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem('adminToken');
+        });
     }
 
     // Gestione login
@@ -62,7 +58,7 @@
 
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
       const password = document.getElementById('password').value;
       errorMessage.textContent = '';
       loginBtn.disabled = true;
@@ -93,4 +89,5 @@
     });
   </script>
 </body>
+
 </html>
