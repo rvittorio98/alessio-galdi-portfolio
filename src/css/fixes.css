@@ -1,0 +1,26 @@
+/* Fix per le immagini full-width */
+#project-content {
+  max-width: 100vw;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.section-image {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.section-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+}

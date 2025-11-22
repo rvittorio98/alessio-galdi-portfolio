@@ -1,0 +1,49 @@
+.sortable-ghost {
+  opacity: 0.4;
+}
+
+.sortable-handle {
+  cursor: move;
+  user-select: none;
+  padding: 8px;
+  margin-right: 8px;
+  color: #666;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.project-card {
+  cursor: move;
+}
+
+.project-card .drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  color: #666;
+}
+
+#sectionsContainer {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+}
+
+.section-item {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

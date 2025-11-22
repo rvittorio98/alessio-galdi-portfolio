@@ -1,0 +1,274 @@
+{
+  "projects": [
+    {
+      "id": "imperia",
+      "name": "IMPERIA",
+      "slug": "imperia",
+      "color": "#E63946",
+      "hero": {
+        "title": "IMPERIA",
+        "description": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+      },
+      "sections": [
+        {
+          "type": "full-width-image",
+          "image": "imperia-hero.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Credits",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "Titolo",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "",
+          "leftContent": "",
+          "rightTitle": "Titolo 2",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "button": "More Info",
+          "buttonLink": "#"
+        },
+        {
+          "type": "full-width-image",
+          "image": "imperia-img1.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "imperia-img2.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "imperia-img3.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Awards",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "",
+          "rightContent": ""
+        },
+        {
+          "type": "projects-list"
+        }
+      ]
+    },
+    {
+      "id": "scarpa",
+      "name": "SCARPA",
+      "slug": "scarpa",
+      "color": "#FF6B6B",
+      "hero": {
+        "title": "SCARPA",
+        "description": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+      },
+      "sections": [
+        {
+          "type": "full-width-image",
+          "image": "scarpa-hero.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Credits",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "Titolo",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "",
+          "leftContent": "",
+          "rightTitle": "Titolo 2",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "button": "More Info",
+          "buttonLink": "#"
+        },
+        {
+          "type": "full-width-image",
+          "image": "scarpa-img1.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "scarpa-img2.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "scarpa-img3.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Awards",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "",
+          "rightContent": ""
+        },
+        {
+          "type": "projects-list"
+        }
+      ]
+    },
+    {
+      "id": "elica",
+      "name": "ELICA",
+      "slug": "elica",
+      "color": "#4ECDC4",
+      "hero": {
+        "title": "ELICA",
+        "description": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+      },
+      "sections": [
+        {
+          "type": "full-width-image",
+          "image": "elica-hero.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Credits",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "Titolo",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "",
+          "leftContent": "",
+          "rightTitle": "Titolo 2",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "button": "More Info",
+          "buttonLink": "#"
+        },
+        {
+          "type": "full-width-image",
+          "image": "elica-img1.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "elica-img2.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "elica-img3.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Awards",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "",
+          "rightContent": ""
+        },
+        {
+          "type": "projects-list"
+        }
+      ]
+    },
+    {
+      "id": "campari-group",
+      "name": "CAMPARI GROUP",
+      "slug": "campari-group",
+      "color": "#95E1D3",
+      "hero": {
+        "title": "CAMPARI GROUP",
+        "description": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+      },
+      "sections": [
+        {
+          "type": "full-width-image",
+          "image": "campari-hero.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Credits",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "Titolo",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "",
+          "leftContent": "",
+          "rightTitle": "Titolo 2",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "button": "More Info",
+          "buttonLink": "#"
+        },
+        {
+          "type": "full-width-image",
+          "image": "campari-img1.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "campari-img2.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "campari-img3.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Awards",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "",
+          "rightContent": ""
+        },
+        {
+          "type": "projects-list"
+        }
+      ]
+    },
+    {
+      "id": "bancomat",
+      "name": "BANCOMAT",
+      "slug": "bancomat",
+      "color": "#F38181",
+      "hero": {
+        "title": "BANCOMAT",
+        "description": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+      },
+      "sections": [
+        {
+          "type": "full-width-image",
+          "image": "bancomat-hero.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Credits",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "Titolo",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions."
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "",
+          "leftContent": "",
+          "rightTitle": "Titolo 2",
+          "rightContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "button": "More Info",
+          "buttonLink": "#"
+        },
+        {
+          "type": "full-width-image",
+          "image": "bancomat-img1.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "bancomat-img2.jpg"
+        },
+        {
+          "type": "full-width-image",
+          "image": "bancomat-img3.jpg"
+        },
+        {
+          "type": "two-column-text",
+          "leftTitle": "Awards",
+          "leftContent": "Award-winning Creative Director based in Rome, with over a decade of experience in branding and strategic design, leading global teams at Landor and recognized with major international honors including a D&AD Yellow Pencil and a Cannes Lions.",
+          "rightTitle": "",
+          "rightContent": ""
+        },
+        {
+          "type": "projects-list"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,682 @@
+/* ==================== VARIABILI CSS ==================== */
+:root {
+  /* Spacing */
+  --pad: 45px;
+  --pad-m: 20px;
+  --spacing-xs: 20px;
+  --spacing-sm: 40px;
+  --spacing-md: 60px;
+  --spacing-lg: 80px;
+  --spacing-xl: 120px;
+  
+  /* Header & Footer */
+  --header-h: 80px;
+  --footer-h: 80px;
+  
+  /* Typography */
+  --font-title-hero: 87.5px;
+  --font-hero-desktop: 60px;
+  --font-body-desktop: 30px;
+  --font-title-mobile: 50px;
+  
+  --line-height-hero-desktop: 72px;
+  --line-height-body: 33px;
+  --line-height-mobile: 1.3;
+  
+  /* Colors */
+  --color-text-light: #000;
+  --color-text-dark: #fff;
+  --color-bg-light: #fff;
+  --color-bg-dark: #0a0a0a;
+  --color-placeholder-light: #e0e0e0;
+  --color-placeholder-dark: #2a2a2a;
+  
+  /* Transitions */
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.45s ease;
+}
+
+/* ==================== BASE ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "aktiv-grotesk-thin", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+  letter-spacing: -0.2px;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-bg-light);
+  color: var(--color-text-light);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+body.dark-mode {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+/* ==================== HEADER ==================== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  background: var(--color-bg-light);
+  border-bottom: 1px solid currentColor;
+  padding-left: calc(var(--pad) + env(safe-area-inset-left));
+  padding-right: calc(var(--pad) + env(safe-area-inset-right));
+  z-index: 1000;
+  transition: background-color var(--transition-base);
+}
+
+body.dark-mode header {
+  background: var(--color-bg-dark);
+}
+
+.header-left,
+.header-center,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-left { justify-content: flex-start; }
+.header-center { justify-content: center; }
+.header-right { justify-content: flex-end; }
+
+.logo {
+  font-size: clamp(22px, 2.3vw, 30px);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.back-button {
+  text-decoration: none;
+  color: inherit;
+}
+
+.toggle-switch {
+  width: 56px;
+  height: 30px;
+  border-radius: 15px;
+  border: 1px solid currentColor;
+  background: transparent;
+  position: relative;
+  cursor: pointer;
+  transition: border-color var(--transition-base);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: left var(--transition-base);
+}
+
+.toggle-switch.active .toggle-knob {
+  left: 29px;
+}
+
+.nav-text {
+  font-size: clamp(22px, 2.3vw, 30px);
+  letter-spacing: -0.5px;
+  line-height: 1;
+  text-align: right;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.nav-short {
+  display: none;
+}
+
+/* ==================== MAIN ==================== */
+main {
+  margin-top: var(--header-h);
+  padding-bottom: var(--footer-h);
+}
+
+/* ==================== HOME PAGE ==================== */
+.hero-section {
+  padding: var(--spacing-lg) var(--pad);
+}
+
+.hero-text {
+  font-size: clamp(22px, 5.5vw, var(--font-hero-desktop));
+  line-height: var(--line-height-hero-desktop);
+  letter-spacing: -0.6px;
+}
+
+/* ==================== PROJECTS LIST ==================== */
+.projects-section {
+  margin-top: var(--spacing-md);
+}
+
+.project-item {
+  border-top: 1px solid currentColor;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px var(--pad);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.project-name {
+  font-size: clamp(28px, 7vw, 72px);
+  letter-spacing: -1.2px;
+}
+
+.project-arrow {
+  width: clamp(72px, 14vw, 120px);
+  transition: transform var(--transition-base);
+  color: currentColor;
+}
+
+.project-image {
+  width: calc(100% + 2 * var(--pad));
+  margin-left: calc(-1 * var(--pad));
+  height: 0;
+  background-size: cover;
+  background-position: center;
+  transition: height var(--transition-slow);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover effects (only on desktop) */
+@media (hover: hover) {
+  .project-item:hover .project-content,
+  .projects-section .project-item:hover .project-content {
+    background: var(--color-text-light);
+    color: var(--color-text-dark);
+  }
+  
+  body.dark-mode .project-item:hover .project-content,
+  body.dark-mode .projects-section .project-item:hover .project-content {
+    background: var(--color-text-dark);
+    color: var(--color-text-light);
+  }
+  
+  .project-item:hover .project-arrow,
+  .projects-section .project-item:hover .project-arrow {
+    transform: translateX(8px);
+  }
+  
+  .project-item:hover .project-image,
+  .projects-section .project-item:hover .project-image {
+    height: 152px;
+  }
+}
+
+/* Disable hover on touch devices */
+@media (hover: none) {
+  .project-item:active .project-content {
+    background: transparent;
+    color: inherit;
+  }
+  
+  .project-item .project-arrow {
+    transform: translateX(0);
+  }
+  
+  .project-item .project-image {
+    height: 0;
+  }
+}
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--footer-h);
+  background: var(--color-bg-light);
+  border-top: 1px solid currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 2;
+  transition: background-color var(--transition-base);
+}
+
+body.dark-mode footer {
+  background: var(--color-bg-dark);
+}
+
+.about-link {
+  font-size: clamp(18px, 2.4vw, 30px);
+  color: currentColor;
+  text-decoration: none;
+}
+
+/* ==================== PROJECT PAGE - HERO & DESCRIPTION ==================== */
+
+/* Hero Section */
+.project-hero,
+#hero {
+  padding: var(--spacing-lg) var(--pad) 0;
+  text-align: center;
+  margin-top: 0;
+}
+
+.project-hero-title,
+#hero .hero-title {
+  font-size: var(--font-title-hero);
+  letter-spacing: -1.2px;
+  font-weight: 200;
+  margin-bottom: var(--spacing-sm);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+#hero .hero-content {
+  max-width: 100%;
+}
+
+/* Description Section */
+.project-description-section,
+#hero .hero-description {
+  padding: 0 var(--pad) var(--spacing-lg);
+}
+
+.project-description-text,
+#hero .hero-description {
+  font-size: var(--font-hero-desktop);
+  line-height: var(--line-height-hero-desktop);
+  letter-spacing: -0.6px;
+  text-align: left;
+}
+
+/* ==================== PROJECT PAGE - DYNAMIC CONTENT ==================== */
+
+#project-content {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Full Width Image */
+.project-full-image,
+.section-image {
+  width: 100%;
+  margin: var(--spacing-xs) 0 0 0;
+  padding: 0;
+}
+
+.project-full-image:first-of-type,
+.section-image:first-of-type {
+  margin-top: 0;
+}
+
+.project-full-image img,
+.section-image img,
+.section-image .project-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Vimeo Video */
+.section-video {
+  width: 100%;
+  margin: var(--spacing-xs) 0;
+  padding: 0;
+}
+
+.vimeo-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  background: #000;
+  border-radius: 0;
+}
+
+.vimeo-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Two Column Text Section */
+.project-two-column-section,
+.section-text-columns {
+  padding: var(--spacing-md) var(--pad);
+  margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+  background: transparent;
+  color: inherit;
+}
+
+.two-column-container,
+.section-text-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--spacing-md);
+}
+
+.column-left,
+.column-right,
+.text-column {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+.column-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-title,
+.text-column h3 {
+  font-family: "aktiv-grotesk", sans-serif;
+  font-weight: 700;
+  font-size: var(--font-body-desktop);
+  line-height: var(--line-height-body);
+  letter-spacing: -0.5px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.column-text,
+.text-column p {
+  font-family: "aktiv-grotesk-thin", sans-serif;
+  font-weight: 200;
+  font-size: var(--font-body-desktop);
+  line-height: var(--line-height-body);
+  margin-bottom: 0;
+  white-space: pre-wrap;
+}
+
+.column-button,
+.section-text-columns .btn {
+  display: inline-block;
+  padding: 12px 36px;
+  background: currentColor;
+  color: var(--button-text-color, var(--color-bg-light));
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: 30px;
+  transition: all var(--transition-base);
+  border: 1px solid currentColor;
+}
+
+body.dark-mode .column-button,
+body.dark-mode .section-text-columns .btn {
+  --button-text-color: var(--color-bg-dark);
+}
+
+body:not(.dark-mode) .column-button,
+body:not(.dark-mode) .section-text-columns .btn {
+  --button-text-color: var(--color-bg-light);
+}
+
+.column-button:hover,
+.section-text-columns .btn:hover {
+  transform: scale(1.05);
+}
+
+.section-text-columns .section-button {
+  grid-column: 1 / -1;
+  text-align: left;
+  margin-top: var(--spacing-sm);
+}
+
+/* Projects List in Project Page (same as home) */
+.section-projects-list {
+  margin: 0;
+  padding: 0;
+}
+
+/* Projects Section */
+.projects-section {
+  display: block;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.project-item {
+  position: relative;
+  border-top: 1px solid currentColor;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.project-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px var(--pad);
+  transition: background-color var(--transition-base), color var(--transition-base);
+  position: relative;
+  z-index: 2;
+}
+
+.project-name {
+  font-size: clamp(28px, 7vw, 72px);
+  letter-spacing: -1.2px;
+}
+
+.project-arrow {
+  width: clamp(72px, 14vw, 120px);
+  transition: transform var(--transition-base);
+  color: currentColor;
+}
+
+.project-image {
+  width: calc(100% + 2 * var(--pad));
+  margin-left: calc(-1 * var(--pad));
+  height: 0;
+  background-size: cover;
+  background-position: center;
+  transition: height var(--transition-slow);
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover effects (solo desktop) */
+@media (hover: hover) {
+  .project-item:hover .project-content {
+    background: var(--color-text-light);
+    color: var(--color-text-dark);
+  }
+  
+  body.dark-mode .project-item:hover .project-content {
+    background: var(--color-text-dark);
+    color: var(--color-text-light);
+  }
+  
+  .project-item:hover .project-arrow {
+    transform: translateX(8px);
+  }
+  
+  .project-item:hover .project-image {
+    height: 152px;
+  }
+}
+
+/* Disable hover on touch */
+@media (hover: none) {
+  .projects-section .project-item:active .project-content {
+    background: transparent;
+    color: inherit;
+  }
+  
+  .projects-section .project-arrow {
+    transform: translateX(0);
+  }
+  
+  .projects-section .project-image {
+    height: 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .projects-section .project-content {
+    padding: 24px var(--pad-m);
+  }
+  
+  .projects-section .project-image {
+    width: calc(100% + 2 * var(--pad-m));
+    margin-left: calc(-1 * var(--pad-m));
+  }
+}
+
+/* ==================== CREDITS SECTION ==================== */
+.project-credits-section {
+  padding: var(--spacing-lg) var(--pad);
+  background: var(--color-text-light);
+  color: var(--color-text-dark);
+}
+
+body.dark-mode .project-credits-section {
+  background: var(--color-text-dark);
+  color: var(--color-text-light);
+}
+
+.credits-title {
+  font-size: clamp(24px, 3vw, 40px);
+  letter-spacing: -0.5px;
+  margin-bottom: 30px;
+}
+
+.credits-content {
+  font-size: clamp(16px, 2vw, 22px);
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  /* Header */
+  header {
+    padding-left: var(--pad-m);
+    padding-right: var(--pad-m);
+    gap: 12px;
+  }
+  
+  .logo { font-size: 20px; }
+  .nav-text { font-size: 20px; }
+  .nav-full { display: none; }
+  .nav-short { display: inline; }
+  
+  /* Home - Hero Section */
+  .hero-section {
+    padding: var(--spacing-lg) var(--pad-m);
+  }
+  
+  .hero-text {
+    line-height: var(--line-height-mobile);
+  }
+  
+  /* Project Page - Hero */
+  .project-hero,
+  #hero {
+    padding: var(--spacing-md) var(--pad-m) 0;
+  }
+  
+  .project-hero-title,
+  #hero .hero-title {
+    font-size: var(--font-title-mobile);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .project-description-section,
+  #hero .hero-description {
+    padding: var(--spacing-md) var(--pad-m);
+  }
+  
+  .project-description-text,
+  #hero .hero-description {
+    font-size: clamp(22px, 5.5vw, var(--font-hero-desktop));
+    line-height: var(--line-height-mobile);
+  }
+  
+  /* Projects */
+  .project-content {
+    padding: 24px var(--pad-m);
+  }
+  
+  .project-image {
+    width: calc(100% + 2 * var(--pad-m));
+    margin-left: calc(-1 * var(--pad-m));
+  }
+  
+  /* Two Columns */
+  .two-column-container,
+  .section-text-columns {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) var(--pad-m);
+  }
+  
+  /* Projects List */
+  .section-projects-list h2 {
+    padding: 0 var(--pad-m) var(--spacing-sm);
+  }
+  
+  #other-projects-container .project-card-content {
+    padding: 24px var(--pad-m);
+  }
+  
+  /* Credits */
+  .project-credits-section {
+    padding: var(--spacing-md) var(--pad-m);
+  }
+}
+
+@media (max-width: 480px) {
+  header { gap: 8px; }
+  .logo { font-size: 18px; }
+  .nav-text { font-size: 18px; }
+}
+
+@media (max-width: 380px) {
+  .logo { font-size: 16px; }
+  .nav-text { font-size: 16px; }
+}

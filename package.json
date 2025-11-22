@@ -1,0 +1,29 @@
+{
+  "name": "alessio-galdi-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio personale di Alessio Galdi - Creative Director con Admin Panel",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "node scripts/build.js && node server/index.js",
+    "start": "node server/index.js"
+  },
+  "keywords": [
+    "portfolio",
+    "creative-director"
+  ],
+  "author": "Alessio Galdi",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^1.41.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "fs-extra": "^11.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

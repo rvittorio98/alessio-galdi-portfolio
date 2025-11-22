@@ -1,0 +1,36 @@
+.two-columns-editor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 15px;
+}
+
+.two-columns-editor .column {
+  background: rgba(0,0,0,0.02);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.two-columns-editor textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+.two-columns-editor .form-group {
+  margin-bottom: 20px;
+}
+
+.two-columns-editor input,
+.two-columns-editor textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.two-columns-editor label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}

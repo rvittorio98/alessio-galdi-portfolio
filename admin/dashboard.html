@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Admin Panel</title>
+  <link rel="stylesheet" href="assets/admin.css">
+  <link rel="stylesheet" href="assets/sortable.css">
+  <link rel="stylesheet" href="assets/editor.css">
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+</head>
+<body class="dashboard-page">
+  <header class="admin-header">
+    <div class="header-content">
+      <h1>Admin Panel</h1>
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="viewSiteBtn">Vedi Sito</button>
+        <button class="btn btn-danger" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <div class="admin-container">
+      <div class="admin-header-section">
+        <h2>Gestione Progetti</h2>
+        <button class="btn btn-primary" id="newProjectBtn">+ Nuovo Progetto</button>
+      </div>
+
+      <div id="projectsList" class="projects-grid">
+        <div class="loading">Caricamento progetti...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal per creare/modificare progetto -->
+  <div id="projectModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Nuovo Progetto</h3>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+
+      <form id="projectForm" class="project-form">
+        <input type="hidden" id="projectId" name="id">
+
+        <div class="form-group">
+          <label for="projectName">Nome Progetto *</label>
+          <input type="text" id="projectName" name="name" required placeholder="Es: IMPERIA">
+        </div>
+
+        <div class="form-group">
+          <label for="projectSlug">Slug URL *</label>
+          <input type="text" id="projectSlug" name="slug" required placeholder="es: imperia">
+          <small>Usato nell'URL: /imperia.html</small>
+        </div>
+
+        <div class="form-group">
+          <label for="heroTitle">Titolo Hero *</label>
+          <input type="text" id="heroTitle" name="heroTitle" required>
+        </div>
+
+        <div class="form-group">
+          <label for="heroDescription">Descrizione Hero *</label>
+          <textarea id="heroDescription" name="heroDescription" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="mainImage">Immagine Principale *</label>
+          <div class="input-with-button">
+            <input type="text" id="mainImage" name="mainImage" required placeholder="URL immagine o carica...">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="window.uploadImageForSection(this)">📷 Upload Immagine</button>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4>Sezioni Progetto</h4>
+          <div id="sectionsContainer">
+            <!-- Le sezioni verranno aggiunte dinamicamente -->
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" id="addSectionBtn">+ Aggiungi Sezione</button>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelBtn">Annulla</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn">Salva Progetto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/admin.js"></script>
+</body>
+</html>
