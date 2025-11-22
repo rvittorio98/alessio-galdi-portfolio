@@ -38,16 +38,7 @@ app.get('/admin/', (req, res) => {
   res.sendFile(path.join(__dirname, '../admin/index.html'));
 });
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, '../src/images/uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
 
-// Serve immagini direttamente da src (per upload in dev)
-app.use('/images', express.static(path.join(__dirname, '../src/images')));
-
-// Serve frontend (dist folder)
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // Dynamic project pages
