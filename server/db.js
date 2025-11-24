@@ -18,6 +18,7 @@ const projectSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true },
   color: { type: String, required: true },
   order: { type: Number, default: 0 },
+  mainImage: { type: String },
   hero: {
     title: String,
     description: String

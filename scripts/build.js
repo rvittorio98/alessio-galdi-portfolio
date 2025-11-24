@@ -4,7 +4,7 @@ const path = require('path');
 const srcDir = path.join(__dirname, '../src');
 const distDir = path.join(__dirname, '../dist');
 
-console.log('🔨 Building project...\n');
+console.log('🔨 Building project... (Cache Buster: ' + Date.now() + ')\n');
 
 // Pulisci la cartella dist
 if (fs.existsSync(distDir)) {
