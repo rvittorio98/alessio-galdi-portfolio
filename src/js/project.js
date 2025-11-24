@@ -61,8 +61,13 @@ function renderSection(section) {
           </div>
         `;
       }
-      const imgSrc = section.image.startsWith('http') ? section.image : '/images/uploads/' + section.image;
-      console.log('Rendering image with src:', imgSrc); // Debug
+      if (section.image) {
+        console.log('Raw image value:', section.image); // Debug
+        console.log('Is string?', typeof section.image === 'string'); // Debug
+      }
+      const imageValue = section.image ? section.image.trim() : '';
+      const imgSrc = imageValue.startsWith('http') ? imageValue : '/images/uploads/' + imageValue;
+      console.log('Final rendering src:', imgSrc); // Debug
       return `
         <div class="section-image">
           <img src="${imgSrc}" alt="Project image" class="project-image" onerror="console.error('Failed to load image:', this.src)">
@@ -152,7 +157,9 @@ async function loadOtherProjects() {
       const projectsHTML = otherProjects.map(project => {
         // Trova la prima immagine full-width nelle sezioni o usa l'immagine principale
         const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image || project.mainImage;
-        const imageUrl = firstImage ? (firstImage.startsWith('http') ? firstImage : '/images/uploads/' + firstImage) : '';
+        const rawImage = firstImage || '';
+        const cleanImage = rawImage.trim();
+        const imageUrl = cleanImage ? (cleanImage.startsWith('http') ? cleanImage : '/images/uploads/' + cleanImage) : '';
 
         return `
           <a href="/${project.slug}.html" class="project-item">
