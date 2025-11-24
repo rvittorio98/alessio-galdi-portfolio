@@ -143,10 +143,10 @@ function renderProjects() {
     new Sortable(projectsList, {
       animation: 150,
       handle: '.drag-handle',
-      onEnd: async function(evt) {
+      onEnd: async function (evt) {
         const projectOrder = Array.from(projectsList.children)
           .map(el => el.dataset.id);
-        
+
         try {
           const response = await fetch('/api/projects/reorder', {
             method: 'PUT',
@@ -156,13 +156,13 @@ function renderProjects() {
             },
             body: JSON.stringify({ order: projectOrder })
           });
-          
+
           const result = await response.json();
-          
+
           if (!response.ok || !result.success) {
             throw new Error(result.message || `Errore nel riordinamento dei progetti`);
           }
-          
+
           // Aggiorna i progetti con quelli restituiti dal server
           if (result.projects) {
             projects = result.projects;
@@ -180,9 +180,9 @@ function renderProjects() {
 }
 
 // ==================== MODAL MANAGEMENT ====================
-window.openModal = function(project = null) {
+window.openModal = function (project = null) {
   editingProject = project;
-  
+
   if (project) {
     modalTitle.textContent = 'Modifica Progetto';
     populateForm(project);
@@ -193,7 +193,7 @@ window.openModal = function(project = null) {
     document.getElementById('projectSlug').value = '';
     sectionsContainer.innerHTML = '';
   }
-  
+
   projectModal.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -211,7 +211,7 @@ function populateForm(project) {
   document.getElementById('heroTitle').value = project.hero?.title || '';
   document.getElementById('heroDescription').value = project.hero?.description || '';
   document.getElementById('mainImage').value = project.mainImage || '';
-  
+
   sectionsContainer.innerHTML = '';
   if (project.sections) {
     // Filtra le sezioni escludendo quelle di tipo projects-list poiché verranno aggiunte automaticamente
@@ -225,26 +225,26 @@ function populateForm(project) {
 // ==================== SECTIONS MANAGEMENT ====================
 let sectionCounter = 0;
 
-window.addSection = function(sectionData = null, index = null) {
+window.addSection = function (sectionData = null, index = null) {
   const sectionId = index !== null ? index : sectionCounter++;
   const sectionType = sectionData?.type || 'full-width-image';
-  
+
   const sectionDiv = document.createElement('div');
   sectionDiv.className = 'section-item';
   sectionDiv.dataset.sectionId = sectionId;
-  
+
   // Inizializza Sortable per le sezioni se non è già stato fatto
   if (!window.sectionsSortable) {
     window.sectionsSortable = new Sortable(sectionsContainer, {
       animation: 150,
       handle: '.sortable-handle',
-      onEnd: function(evt) {
+      onEnd: function (evt) {
         // L'ordine verrà salvato quando si salva il progetto
         console.log('Sections reordered');
       }
     });
   }
-  
+
   sectionDiv.innerHTML = `
     <div class="section-header">
       <div class="sortable-handle">⋮⋮</div>
@@ -259,7 +259,7 @@ window.addSection = function(sectionData = null, index = null) {
       ${renderSectionFields(sectionType, sectionData)}
     </div>
   `;
-  
+
   sectionsContainer.appendChild(sectionDiv);
 }
 
@@ -273,7 +273,7 @@ function renderSectionFields(type, data = null) {
           <button type="button" class="btn btn-secondary btn-sm" onclick="window.uploadImageForSection(this)">📷 Upload Immagine</button>
         </div>
       `;
-    
+
     case 'vimeo-video':
       return `
         <div class="form-group">
@@ -301,7 +301,7 @@ function renderSectionFields(type, data = null) {
           </select>
         </div>
       `;
-    
+
     case 'two-column-text':
       return `
         <div class="two-columns-editor">
@@ -327,21 +327,21 @@ function renderSectionFields(type, data = null) {
           </div>
         </div>
       `;
-    
+
     case 'projects-list':
       return `<p>Questa sezione mostrerà automaticamente tutti gli altri progetti</p>`;
-    
+
     default:
       return '';
   }
 }
 
-window.updateSectionFields = function(sectionId, type) {
+window.updateSectionFields = function (sectionId, type) {
   const fieldsContainer = document.getElementById(`fields-${sectionId}`);
   fieldsContainer.innerHTML = renderSectionFields(type);
 }
 
-window.removeSection = function(sectionId) {
+window.removeSection = function (sectionId) {
   const section = document.querySelector(`[data-section-id="${sectionId}"]`);
   if (section) {
     section.remove();
@@ -349,37 +349,36 @@ window.removeSection = function(sectionId) {
 }
 
 // ==================== IMAGE UPLOAD ====================
-window.uploadImageForSection = async function(button) {
+window.uploadImageForSection = async function (button) {
   const input = document.createElement('input');
   input.type = 'file';
   input.accept = 'image/*';
-  
+
   input.onchange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     const originalText = button.textContent;
     button.textContent = '⏳ Caricamento...';
     button.disabled = true;
-    
+
     try {
       console.log('Uploading file:', file.name); // Debug
       const result = await API.uploadImage(file);
       console.log('Upload result:', result); // Debug
-      
+
       if (result.success) {
         const inputField = button.previousElementSibling;
-        // Estraiamo solo il nome del file dall'URL
-        const filename = result.url.split('/').pop();
-        console.log('Extracted filename:', filename); // Debug
-        inputField.value = filename;
-        
+        // Usiamo l'URL completo di Cloudinary
+        inputField.value = result.url;
+        console.log('Image URL:', result.url); // Debug
+
         // Verifichiamo che l'immagine sia accessibile
         const img = new Image();
         img.onload = () => console.log('Image loaded successfully:', result.url);
         img.onerror = () => console.error('Failed to load image:', result.url);
         img.src = result.url;
-        
+
         alert('Immagine caricata con successo!');
       } else {
         alert('Errore: ' + result.message);
@@ -392,18 +391,18 @@ window.uploadImageForSection = async function(button) {
       button.disabled = false;
     }
   };
-  
+
   input.click();
 }
 
 // ==================== FORM SUBMISSION ====================
 projectForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  
+
   const saveBtn = document.getElementById('saveBtn');
   saveBtn.disabled = true;
   saveBtn.textContent = 'Salvataggio...';
-  
+
   try {
     // DEBUG: Vediamo i valori del form
     console.log('🔍 DEBUG FORM:');
@@ -413,12 +412,12 @@ projectForm.addEventListener('submit', async (e) => {
     console.log('Desc Hero:', document.getElementById('heroDescription').value);
     console.log('Immagine:', document.getElementById('mainImage').value);
     console.log('EditingProject:', editingProject);
-    
+
     const slugValue = document.getElementById('projectSlug').value.trim();
     const nameValue = document.getElementById('projectName').value.trim();
     const heroTitleValue = document.getElementById('heroTitle').value.trim();
     const heroDescValue = document.getElementById('heroDescription').value.trim();
-    
+
     // Validazione base
     if (!nameValue) {
       alert('Il nome è obbligatorio!');
@@ -426,16 +425,16 @@ projectForm.addEventListener('submit', async (e) => {
       saveBtn.textContent = 'Salva Progetto';
       return;
     }
-    
+
     if (!slugValue) {
       alert('Lo slug è obbligatorio!');
       saveBtn.disabled = false;
       saveBtn.textContent = 'Salva Progetto';
       return;
     }
-    
+
     const mainImageValue = document.getElementById('mainImage').value.trim();
-    
+
     if (!mainImageValue) {
       alert('L\'immagine principale è obbligatoria!');
       saveBtn.disabled = false;
@@ -459,21 +458,21 @@ projectForm.addEventListener('submit', async (e) => {
         }
       ]
     };
-    
+
     const sectionElements = sectionsContainer.querySelectorAll('.section-item');
     sectionElements.forEach(sectionEl => {
       const typeSelect = sectionEl.querySelector('.section-type');
       const type = typeSelect.value;
-      
+
       const section = { type };
-      
+
       const fields = sectionEl.querySelectorAll('.section-field');
       fields.forEach(field => {
         if (field.value) {
           section[field.name] = field.value;
         }
       });
-      
+
       projectData.sections.push(section);
     });
 
@@ -481,9 +480,9 @@ projectForm.addEventListener('submit', async (e) => {
     projectData.sections.push({
       type: 'projects-list'
     });
-    
+
     console.log('📦 Project Data da inviare:', JSON.stringify(projectData, null, 2));
-    
+
     let result;
     if (editingProject) {
       console.log('→ UPDATE progetto:', slugValue);
@@ -492,9 +491,9 @@ projectForm.addEventListener('submit', async (e) => {
       console.log('→ CREATE nuovo progetto');
       result = await API.createProject(projectData);
     }
-    
+
     console.log('✅ Risposta server:', result);
-    
+
     if (result.success) {
       alert(editingProject ? 'Progetto aggiornato!' : 'Progetto creato!');
       closeModalFn();
@@ -512,7 +511,7 @@ projectForm.addEventListener('submit', async (e) => {
 });
 
 // ==================== EDIT PROJECT ====================
-window.editProject = function(projectSlug) {
+window.editProject = function (projectSlug) {
   const project = projects.find(p => p.slug === projectSlug);
   if (project) {
     window.openModal(project);
@@ -523,11 +522,11 @@ window.editProject = function(projectSlug) {
 }
 
 // ==================== DELETE PROJECT ====================
-window.deleteProject = async function(projectSlug) {
+window.deleteProject = async function (projectSlug) {
   if (!confirm('Sei sicuro di voler eliminare questo progetto?')) {
     return;
   }
-  
+
   try {
     const result = await API.deleteProject(projectSlug);
     if (result.success) {
