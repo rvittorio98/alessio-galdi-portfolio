@@ -66,7 +66,15 @@ function renderSection(section) {
         console.log('Is string?', typeof section.image === 'string'); // Debug
       }
       const imageValue = section.image ? section.image.trim() : '';
-      const imgSrc = imageValue.startsWith('http') ? imageValue : '/images/uploads/' + imageValue;
+      let imgSrc = imageValue;
+
+      if (!imageValue.startsWith('http')) {
+        // Fallback: prova a costruire l'URL di Cloudinary se è solo un nome file
+        // Nota: Cloudinary supporta URL senza versione
+        imgSrc = `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${imageValue}`;
+        console.log('⚠️ Using Cloudinary fallback URL:', imgSrc);
+      }
+
       console.log('Final rendering src:', imgSrc); // Debug
       return `
         <div class="section-image">
@@ -159,7 +167,11 @@ async function loadOtherProjects() {
         const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image || project.mainImage;
         const rawImage = firstImage || '';
         const cleanImage = rawImage.trim();
-        const imageUrl = cleanImage ? (cleanImage.startsWith('http') ? cleanImage : '/images/uploads/' + cleanImage) : '';
+        let imageUrl = cleanImage;
+
+        if (cleanImage && !cleanImage.startsWith('http')) {
+          imageUrl = `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${cleanImage}`;
+        }
 
         return `
           <a href="/${project.slug}.html" class="project-item">
