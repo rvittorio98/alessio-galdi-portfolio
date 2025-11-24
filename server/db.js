@@ -7,7 +7,8 @@ const connectDB = async () => {
     console.log('✅ MongoDB Connected');
   } catch (error) {
     console.error('❌ MongoDB Connection Error:', error.message);
-    process.exit(1);
+    // Non chiudere il processo, altrimenti Vercel restituisce 500 per tutte le route
+    // process.exit(1); 
   }
 };
 
