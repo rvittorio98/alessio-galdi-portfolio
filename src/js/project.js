@@ -61,14 +61,14 @@ function renderSection(section) {
           </div>
         `;
       }
-      const imgSrc = section.image.includes('/') ? section.image : '/images/uploads/' + section.image;
+      const imgSrc = section.image.startsWith('http') ? section.image : '/images/uploads/' + section.image;
       console.log('Rendering image with src:', imgSrc); // Debug
       return `
         <div class="section-image">
           <img src="${imgSrc}" alt="Project image" class="project-image" onerror="console.error('Failed to load image:', this.src)">
         </div>
       `;
-    
+
     case 'vimeo-video':
       const aspectRatio = section.aspectRatio || '16:9';
       const paddingMap = {
@@ -78,10 +78,10 @@ function renderSection(section) {
         '1:1': '100%'
       };
       const padding = paddingMap[aspectRatio] || '56.25%';
-      
+
       // Pulisci l'ID del video da eventuali caratteri non necessari
       const videoId = section.vimeoId ? section.vimeoId.trim().replace(/\D/g, '') : '';
-      
+
       if (!videoId) {
         console.error('ID video Vimeo mancante o non valido:', section.vimeoId);
         return `
@@ -92,7 +92,7 @@ function renderSection(section) {
           </div>
         `;
       }
-      
+
       return `
         <div class="section-video">
           <div class="vimeo-container" style="position: relative; padding-bottom: ${padding}; height: 0; overflow: hidden; max-width: 100%; margin: 3rem auto; background: #000; border-radius: 8px;">
@@ -106,7 +106,7 @@ function renderSection(section) {
           </div>
         </div>
       `;
-    
+
     case 'two-column-text':
       return `
         <div class="section-text-columns">
@@ -120,12 +120,12 @@ function renderSection(section) {
           </div>
         </div>
       `;
-    
+
     case 'projects-list':
       return `<div class="section-projects-list">
         <div id="other-projects-container" class="projects-section"></div>
       </div>`;
-    
+
     default:
       console.warn('Unknown section type:', section.type);
       return '';
@@ -152,7 +152,7 @@ async function loadOtherProjects() {
       const projectsHTML = otherProjects.map(project => {
         // Trova la prima immagine full-width nelle sezioni o usa l'immagine principale
         const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image || project.mainImage;
-        const imageUrl = firstImage ? (firstImage.includes('/') ? firstImage : '/images/uploads/' + firstImage) : '';
+        const imageUrl = firstImage ? (firstImage.startsWith('http') ? firstImage : '/images/uploads/' + firstImage) : '';
 
         return `
           <a href="/${project.slug}.html" class="project-item">
@@ -181,7 +181,7 @@ const backButton = document.querySelector('.back-button');
 if (backButton) {
   backButton.addEventListener('click', (e) => {
     e.preventDefault();
-    
+
     // Se c'è una history, torna indietro
     if (window.history.length > 1) {
       window.history.back();
@@ -208,7 +208,7 @@ if (darkModeToggle) {
   darkModeToggle.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
     darkModeToggle.classList.toggle('active');
-    
+
     // Salva preferenza
     const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
     localStorage.setItem('theme', theme);
