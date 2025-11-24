@@ -451,13 +451,16 @@ projectForm.addEventListener('submit', async (e) => {
         title: heroTitleValue,
         description: heroDescValue
       },
-      sections: [
-        {
-          type: 'full-width-image',
-          image: mainImageValue
-        }
-      ]
+      sections: []
     };
+
+    // Se è un NUOVO progetto e non ci sono sezioni, aggiungiamo l'immagine principale come prima sezione
+    if (!editingProject && sectionsContainer.children.length === 0) {
+      projectData.sections.push({
+        type: 'full-width-image',
+        image: mainImageValue
+      });
+    }
 
     const sectionElements = sectionsContainer.querySelectorAll('.section-item');
     sectionElements.forEach(sectionEl => {
