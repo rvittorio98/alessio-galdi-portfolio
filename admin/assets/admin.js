@@ -371,7 +371,7 @@ window.uploadImageForSection = async function (button) {
         const inputField = button.previousElementSibling;
         // Usiamo l'URL completo di Cloudinary
         inputField.value = result.url;
-        console.log('Image URL:', result.url); // Debug
+        console.log('✅ VERSIONE 3 - URL COMPLETO:', result.url); // Debug
 
         // Verifichiamo che l'immagine sia accessibile
         const img = new Image();
