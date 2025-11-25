@@ -1,16 +1,51 @@
 const mongoose = require('mongoose');
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
+let cached = global.mongoose;
 
-    console.log('✅ MongoDB Connected');
-  } catch (error) {
-    console.error('❌ MongoDB Connection Error:', error.message);
-    // Non chiudere il processo, altrimenti Vercel restituisce 500 per tutte le route
-    // process.exit(1); 
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+const connectDB = async () => {
+  if (cached.conn) {
+    console.log('✅ Using cached MongoDB connection');
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: true, // Enable buffering
+    };
+
+    console.log('🔄 Connecting to MongoDB...');
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
+      console.log('✅ MongoDB Connected');
+      return mongoose;
+    }).catch(err => {
+      console.error('❌ MongoDB Connection Error:', err.message);
+      throw err;
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (e) {
+    cached.promise = null;
+    console.error('❌ Failed to establish MongoDB connection:', e.message);
+    throw e;
   }
 };
+
+mongoose.connection.on('disconnected', () => {
+  console.log('⚠️ MongoDB disconnected');
+  cached.conn = null;
+  cached.promise = null;
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ MongoDB connection error:', err);
+});
 
 // Schema per i progetti - SOLO SLUG come ID
 const projectSchema = new mongoose.Schema({

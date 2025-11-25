@@ -18,8 +18,23 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// Connetti al database
-connectDB();
+// Connetti al database (rimosso chiamata top-level, gestito via middleware e start server)
+// connectDB();
+
+// Middleware per assicurare la connessione al DB
+app.use(async (req, res, next) => {
+  if (req.path.startsWith('/api')) {
+    try {
+      await connectDB();
+      next();
+    } catch (error) {
+      console.error('Database connection failed:', error);
+      res.status(500).json({ error: 'Database connection failed' });
+    }
+  } else {
+    next();
+  }
+});
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -67,12 +82,20 @@ app.get('*', (req, res) => {
 });
 
 if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`\n🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📱 Frontend: http://localhost:${PORT}`);
-    console.log(`🔐 Admin: http://localhost:${PORT}/admin`);
-    console.log(`🔌 API: http://localhost:${PORT}/api\n`);
-  });
+  (async () => {
+    try {
+      await connectDB();
+      app.listen(PORT, () => {
+        console.log(`\n🚀 Server running on http://localhost:${PORT}`);
+        console.log(`📱 Frontend: http://localhost:${PORT}`);
+        console.log(`🔐 Admin: http://localhost:${PORT}/admin`);
+        console.log(`🔌 API: http://localhost:${PORT}/api\n`);
+      });
+    } catch (error) {
+      console.error('Failed to start server:', error);
+      process.exit(1);
+    }
+  })();
 }
 
 module.exports = app;
