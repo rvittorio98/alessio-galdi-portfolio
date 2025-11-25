@@ -210,7 +210,7 @@ function populateForm(project) {
   document.getElementById('projectSlug').value = project.slug;
   document.getElementById('heroTitle').value = project.hero?.title || '';
   document.getElementById('heroDescription').value = project.hero?.description || '';
-  document.getElementById('mainImage').value = project.mainImage || '';
+
 
   sectionsContainer.innerHTML = '';
   if (project.sections) {
@@ -410,7 +410,7 @@ projectForm.addEventListener('submit', async (e) => {
     console.log('Slug:', document.getElementById('projectSlug').value);
     console.log('Titolo Hero:', document.getElementById('heroTitle').value);
     console.log('Desc Hero:', document.getElementById('heroDescription').value);
-    console.log('Immagine:', document.getElementById('mainImage').value);
+
     console.log('EditingProject:', editingProject);
 
     const slugValue = document.getElementById('projectSlug').value.trim();
@@ -433,20 +433,13 @@ projectForm.addEventListener('submit', async (e) => {
       return;
     }
 
-    const mainImageValue = document.getElementById('mainImage').value.trim();
 
-    if (!mainImageValue) {
-      alert('L\'immagine principale è obbligatoria!');
-      saveBtn.disabled = false;
-      saveBtn.textContent = 'Salva Progetto';
-      return;
-    }
 
     const projectData = {
       name: nameValue,
       slug: slugValue,
       color: '#000000', // Colore predefinito
-      mainImage: mainImageValue,
+
       hero: {
         title: heroTitleValue,
         description: heroDescValue

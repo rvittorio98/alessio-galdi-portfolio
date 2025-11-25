@@ -297,7 +297,7 @@ body.dark-mode footer {
 .project-hero,
 #hero {
   padding: var(--spacing-lg) var(--pad) 0;
-  text-align: center;
+  text-align: left;
   margin-top: 0;
 }
 
@@ -318,7 +318,7 @@ body.dark-mode footer {
 /* Description Section */
 .project-description-section,
 #hero .hero-description {
-  padding: 0 var(--pad) var(--spacing-lg);
+  padding: 0 0 var(--spacing-lg);
 }
 
 .project-description-text,
