@@ -15,23 +15,6 @@ function initDarkMode() {
   });
 }
 
-// ==================== HELPER: Get Image URL ====================
-function getImageUrl(imageValue) {
-  if (!imageValue) return '';
-
-  const cleanImage = imageValue.trim();
-
-  // Se è già un URL completo (Cloudinary o altro), usalo direttamente
-  if (cleanImage.startsWith('http://') || cleanImage.startsWith('https://')) {
-    return cleanImage;
-  }
-
-  // Altrimenti costruisci l'URL Cloudinary
-  // Rimuovi eventuali slash iniziali
-  const filename = cleanImage.replace(/^\/+/, '');
-  return `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${filename}`;
-}
-
 // ==================== PROJECTS LOADER ====================
 async function loadProjects() {
   const projectsList = document.getElementById('projectsList');
@@ -55,7 +38,15 @@ async function loadProjects() {
 
       // Trova la prima immagine full-width nelle sezioni
       const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image;
-      const imageUrl = getImageUrl(firstImage);
+      let imageUrl = '';
+      if (firstImage) {
+        const cleanImage = firstImage.trim();
+        if (cleanImage.startsWith('http')) {
+          imageUrl = cleanImage;
+        } else {
+          imageUrl = `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${cleanImage}`;
+        }
+      }
 
       projectItem.innerHTML = `
         <div class="project-content">
