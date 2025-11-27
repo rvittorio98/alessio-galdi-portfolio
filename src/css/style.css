@@ -1,6 +1,6 @@
 /* ==================== VARIABILI CSS ==================== */
 :root {
-  /* Spacing */
+  /* Spacing - Desktop */
   --pad: 45px;
   --pad-m: 20px;
   --spacing-xs: 20px;
@@ -34,6 +34,12 @@
   /* Transitions */
   --transition-base: 0.3s ease;
   --transition-slow: 0.45s ease;
+
+  /* Safe Area Insets (fallback per browser che non supportano env()) */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
 }
 
 /* ==================== BASE ==================== */
@@ -43,9 +49,16 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Supporto per safe areas su iOS */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
 html,
 body {
   overflow-x: hidden;
+  /* Previene il bounce scroll su iOS */
+  overscroll-behavior: none;
 }
 
 body {
@@ -59,6 +72,8 @@ body {
   background: var(--color-bg-light);
   color: var(--color-text-light);
   transition: background-color var(--transition-base), color var(--transition-base);
+  /* Previene il text-size-adjust su iOS */
+  -webkit-text-size-adjust: 100%;
 }
 
 body.dark-mode {
@@ -79,8 +94,8 @@ header {
   gap: 16px;
   background: var(--color-bg-light);
   border-bottom: 1px solid currentColor;
-  padding-left: calc(var(--pad) + env(safe-area-inset-left));
-  padding-right: calc(var(--pad) + env(safe-area-inset-right));
+  padding-left: calc(var(--pad) + env(safe-area-inset-left, 0px));
+  padding-right: calc(var(--pad) + env(safe-area-inset-right, 0px));
   z-index: 1000;
   transition: background-color var(--transition-base);
 }
@@ -129,6 +144,8 @@ body.dark-mode header {
   cursor: pointer;
   transition: border-color var(--transition-base);
   -webkit-tap-highlight-color: transparent;
+  /* Previene il delay del tap su iOS */
+  touch-action: manipulation;
 }
 
 .toggle-knob {
@@ -162,7 +179,7 @@ body.dark-mode header {
 /* ==================== MAIN ==================== */
 main {
   margin-top: var(--header-h);
-  padding-bottom: var(--footer-h);
+  padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
 }
 
 /* ==================== HOME PAGE ==================== */
@@ -188,6 +205,13 @@ main {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  /* Previene il delay del tap */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .project-content {
@@ -196,6 +220,8 @@ main {
   align-items: center;
   padding: 24px var(--pad);
   transition: background-color var(--transition-base), color var(--transition-base);
+  position: relative;
+  z-index: 2;
 }
 
 .project-name {
@@ -207,6 +233,7 @@ main {
   width: clamp(72px, 14vw, 120px);
   transition: transform var(--transition-base);
   color: currentColor;
+  flex-shrink: 0;
 }
 
 .project-image {
@@ -217,48 +244,27 @@ main {
   background-position: center;
   transition: height var(--transition-slow);
   position: relative;
-  overflow: hidden;
+  z-index: 1;
 }
 
 /* Hover effects (only on desktop) */
-@media (hover: hover) {
-
-  .project-item:hover .project-content,
-  .projects-section .project-item:hover .project-content {
+@media (hover: hover) and (pointer: fine) {
+  .project-item:hover .project-content {
     background: var(--color-text-light);
     color: var(--color-text-dark);
   }
 
-  body.dark-mode .project-item:hover .project-content,
-  body.dark-mode .projects-section .project-item:hover .project-content {
+  body.dark-mode .project-item:hover .project-content {
     background: var(--color-text-dark);
     color: var(--color-text-light);
   }
 
-  .project-item:hover .project-arrow,
-  .projects-section .project-item:hover .project-arrow {
+  .project-item:hover .project-arrow {
     transform: translateX(8px);
   }
 
-  .project-item:hover .project-image,
-  .projects-section .project-item:hover .project-image {
+  .project-item:hover .project-image {
     height: 152px;
-  }
-}
-
-/* Disable hover on touch devices */
-@media (hover: none) {
-  .project-item:active .project-content {
-    background: transparent;
-    color: inherit;
-  }
-
-  .project-item .project-arrow {
-    transform: translateX(0);
-  }
-
-  .project-item .project-image {
-    height: 0;
   }
 }
 
@@ -268,7 +274,7 @@ footer {
   bottom: 0;
   left: 0;
   right: 0;
-  height: var(--footer-h);
+  height: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
   background: var(--color-bg-light);
   border-top: 1px solid currentColor;
   display: flex;
@@ -276,8 +282,8 @@ footer {
   justify-content: center;
   margin: 0;
   padding: 0;
-  padding-bottom: env(safe-area-inset-bottom);
-  z-index: 2;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  z-index: 1000;
   transition: background-color var(--transition-base);
 }
 
@@ -289,6 +295,8 @@ body.dark-mode footer {
   font-size: clamp(18px, 2.4vw, 30px);
   color: currentColor;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* ==================== PROJECT PAGE - HERO & DESCRIPTION ==================== */
@@ -351,8 +359,7 @@ body.dark-mode footer {
 }
 
 .project-full-image img,
-.section-image img,
-.section-image .project-image {
+.section-image img {
   width: 100%;
   height: auto;
   display: block;
@@ -372,7 +379,6 @@ body.dark-mode footer {
   overflow: hidden;
   max-width: 100%;
   background: #000;
-  border-radius: 0;
 }
 
 .vimeo-container iframe {
@@ -468,113 +474,10 @@ body:not(.dark-mode) .section-text-columns .btn {
   margin-top: var(--spacing-sm);
 }
 
-/* Projects List in Project Page (same as home) */
+/* Projects List in Project Page */
 .section-projects-list {
   margin: 0;
   padding: 0;
-}
-
-/* Projects Section */
-.projects-section {
-  display: block;
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-.project-item {
-  position: relative;
-  border-top: 1px solid currentColor;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-}
-
-.project-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px var(--pad);
-  transition: background-color var(--transition-base), color var(--transition-base);
-  position: relative;
-  z-index: 2;
-}
-
-.project-name {
-  font-size: clamp(28px, 7vw, 72px);
-  letter-spacing: -1.2px;
-}
-
-.project-arrow {
-  width: clamp(72px, 14vw, 120px);
-  transition: transform var(--transition-base);
-  color: currentColor;
-}
-
-.project-image {
-  width: calc(100% + 2 * var(--pad));
-  margin-left: calc(-1 * var(--pad));
-  height: 0;
-  background-size: cover;
-  background-position: center;
-  transition: height var(--transition-slow);
-  position: relative;
-  z-index: 1;
-}
-
-/* Hover effects (solo desktop) */
-@media (hover: hover) {
-  .project-item:hover .project-content {
-    background: var(--color-text-light);
-    color: var(--color-text-dark);
-  }
-
-  body.dark-mode .project-item:hover .project-content {
-    background: var(--color-text-dark);
-    color: var(--color-text-light);
-  }
-
-  .project-item:hover .project-arrow {
-    transform: translateX(8px);
-  }
-
-  .project-item:hover .project-image {
-    height: 152px;
-  }
-}
-
-/* Disable hover on touch */
-@media (hover: none) {
-  .projects-section .project-item:active .project-content {
-    background: transparent;
-    color: inherit;
-  }
-
-  .projects-section .project-arrow {
-    transform: translateX(0);
-  }
-
-  .projects-section .project-image {
-    height: 0;
-  }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .projects-section .project-content {
-    padding: 24px var(--pad-m);
-  }
-
-  .projects-section .project-image {
-    width: calc(100% + 2 * var(--pad-m));
-    margin-left: calc(-1 * var(--pad-m));
-  }
 }
 
 /* ==================== CREDITS SECTION ==================== */
@@ -601,13 +504,27 @@ body.dark-mode .project-credits-section {
   white-space: pre-line;
 }
 
-/* ==================== RESPONSIVE ==================== */
+/* ==================== RESPONSIVE - TABLET ==================== */
+@media (max-width: 1024px) {
+  :root {
+    --spacing-lg: 60px;
+    --spacing-md: 40px;
+  }
+}
+
+/* ==================== RESPONSIVE - MOBILE ==================== */
 @media (max-width: 768px) {
+  :root {
+    --pad: var(--pad-m);
+    --spacing-lg: 50px;
+    --spacing-md: 30px;
+    --spacing-sm: 25px;
+  }
 
   /* Header */
   header {
-    padding-left: var(--pad-m);
-    padding-right: var(--pad-m);
+    padding-left: calc(var(--pad-m) + env(safe-area-inset-left, 0px));
+    padding-right: calc(var(--pad-m) + env(safe-area-inset-right, 0px));
     gap: 12px;
   }
 
@@ -650,18 +567,18 @@ body.dark-mode .project-credits-section {
 
   .project-description-section,
   #hero .hero-description {
-    padding: var(--spacing-md) var(--pad-m);
+    padding: var(--spacing-sm) var(--pad-m) var(--spacing-md);
   }
 
   .project-description-text,
   #hero .hero-description {
-    font-size: clamp(22px, 5.5vw, var(--font-hero-desktop));
+    font-size: clamp(20px, 5vw, 30px);
     line-height: var(--line-height-mobile);
   }
 
   /* Projects */
   .project-content {
-    padding: 24px var(--pad-m);
+    padding: 20px var(--pad-m);
   }
 
   .project-image {
@@ -669,42 +586,29 @@ body.dark-mode .project-credits-section {
     margin-left: calc(-1 * var(--pad-m));
   }
 
-  /* Two Columns */
-  .project-two-column-section {
-    padding: 0;
-    /* Resetta padding del contenitore esterno su mobile */
-    margin: 0;
+  /* Two Columns -> Single Column */
+  .project-two-column-section,
+  .section-text-columns {
+    padding: var(--spacing-sm) var(--pad-m);
+    margin: var(--spacing-sm) 0;
   }
 
   .two-column-container,
   .section-text-columns {
     grid-template-columns: 1fr;
     gap: var(--spacing-sm);
-    padding: 0 var(--pad-m) var(--spacing-lg);
-    /* Allineato con hero description */
   }
 
   .text-column h3,
   .column-title {
     font-size: 20px;
-    /* Ridotto per mobile */
     margin-bottom: 10px;
   }
 
   .text-column p,
   .column-text {
     font-size: 18px;
-    /* Ridotto per mobile */
-    line-height: 1.4;
-  }
-
-  /* Projects List */
-  .section-projects-list h2 {
-    padding: 0 var(--pad-m) var(--spacing-sm);
-  }
-
-  #other-projects-container .project-card-content {
-    padding: 24px var(--pad-m);
+    line-height: 1.5;
   }
 
   /* Credits */
@@ -713,6 +617,7 @@ body.dark-mode .project-credits-section {
   }
 }
 
+/* ==================== RESPONSIVE - SMALL MOBILE ==================== */
 @media (max-width: 480px) {
   header {
     gap: 8px;
@@ -725,8 +630,28 @@ body.dark-mode .project-credits-section {
   .nav-text {
     font-size: 18px;
   }
+
+  .toggle-switch {
+    width: 48px;
+    height: 26px;
+  }
+
+  .toggle-knob {
+    width: 18px;
+    height: 18px;
+  }
+
+  .toggle-switch.active .toggle-knob {
+    left: 26px;
+  }
+
+  .project-hero-title,
+  #hero .hero-title {
+    font-size: 36px;
+  }
 }
 
+/* ==================== RESPONSIVE - VERY SMALL MOBILE ==================== */
 @media (max-width: 380px) {
   .logo {
     font-size: 16px;
@@ -734,5 +659,23 @@ body.dark-mode .project-credits-section {
 
   .nav-text {
     font-size: 16px;
+  }
+
+  .project-hero-title,
+  #hero .hero-title {
+    font-size: 32px;
+  }
+}
+
+/* ==================== LANDSCAPE MOBILE ==================== */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --header-h: 60px;
+    --footer-h: 60px;
+  }
+
+  .hero-section {
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
 }

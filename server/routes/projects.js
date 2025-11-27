@@ -7,13 +7,13 @@ const authMiddleware = require('../middleware/auth');
 // PUT /api/projects/reorder - Riordina progetti (protetto)
 router.put('/reorder', authMiddleware, async (req, res) => {
   try {
-    const { order } = req.body;    if (!order) {
+    const { order } = req.body; if (!order) {
       return res.status(400).json({
         success: false,
         message: 'order è richiesto nel body della richiesta'
       });
     }
-    
+
     if (!Array.isArray(order)) {
       return res.status(400).json({
         success: false,
@@ -37,7 +37,7 @@ router.put('/reorder', authMiddleware, async (req, res) => {
       // Verifica che tutti gli slug esistano
       const existingSlugs = existingProjects.map(p => p.slug);
       const missingProjects = order.filter(slug => !existingSlugs.includes(slug));
-      
+
       if (missingProjects.length > 0) {
         console.error('Missing projects:', missingProjects);
         return res.status(400).json({
@@ -53,13 +53,13 @@ router.put('/reorder', authMiddleware, async (req, res) => {
       try {
         // Verifica che tutti i progetti esistano prima dell'aggiornamento
         const projectsToUpdate = await Project.find({ slug: { $in: order } }).session(session);
-        
+
         if (projectsToUpdate.length !== order.length) {
           throw new Error(`Alcuni progetti non sono stati trovati`);
         }
 
         // Aggiorna l'ordine di tutti i progetti
-        const updatePromises = order.map((slug, index) => 
+        const updatePromises = order.map((slug, index) =>
           Project.findOneAndUpdate(
             { slug },
             { $set: { order: index } },
@@ -134,7 +134,7 @@ router.get('/', async (req, res) => {
 router.get('/:slug', async (req, res) => {
   try {
     const project = await Project.findOne({ slug: req.params.slug });
-    
+
     if (!project) {
       return res.status(404).json({
         success: false,

@@ -15,6 +15,23 @@ function initDarkMode() {
   });
 }
 
+// ==================== HELPER: Get Image URL ====================
+function getImageUrl(imageValue) {
+  if (!imageValue) return '';
+
+  const cleanImage = imageValue.trim();
+
+  // Se è già un URL completo (Cloudinary o altro), usalo direttamente
+  if (cleanImage.startsWith('http://') || cleanImage.startsWith('https://')) {
+    return cleanImage;
+  }
+
+  // Altrimenti costruisci l'URL Cloudinary
+  // Rimuovi eventuali slash iniziali
+  const filename = cleanImage.replace(/^\/+/, '');
+  return `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${filename}`;
+}
+
 // ==================== PROJECTS LOADER ====================
 async function loadProjects() {
   const projectsList = document.getElementById('projectsList');
@@ -24,22 +41,22 @@ async function loadProjects() {
     // Legge da API invece che da file JSON
     const response = await fetch('/api/projects');
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    
+
     const data = await response.json();
-    
+
     if (!data.success || !data.projects) {
       throw new Error('Invalid API response');
     }
-    
+
     data.projects.forEach(project => {
       const projectItem = document.createElement('a');
       projectItem.className = 'project-item';
       projectItem.href = `${project.slug}.html`;
-      
+
       // Trova la prima immagine full-width nelle sezioni
       const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image;
-      const imageUrl = firstImage ? (firstImage.includes('/') ? firstImage : '/images/uploads/' + firstImage) : '';
-      
+      const imageUrl = getImageUrl(firstImage);
+
       projectItem.innerHTML = `
         <div class="project-content">
           <div class="project-name">${project.name}</div>
@@ -51,7 +68,7 @@ async function loadProjects() {
         </div>
         <div class="project-image" style="background-image: url('${imageUrl}');"></div>
       `;
-      
+
       projectsList.appendChild(projectItem);
     });
   } catch (error) {
@@ -59,7 +76,7 @@ async function loadProjects() {
       message: error.message,
       stack: error.stack
     });
-    
+
     projectsList.innerHTML = `
       <div style="padding: 60px; text-align: center;">
         <p>Errore nel caricamento dei progetti.</p>

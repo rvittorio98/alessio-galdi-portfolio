@@ -3,6 +3,22 @@
 // Ottieni il nome del progetto dall'URL
 const projectSlug = window.location.pathname.replace('.html', '').replace('/', '');
 
+// ==================== HELPER: Get Image URL ====================
+function getImageUrl(imageValue) {
+  if (!imageValue) return '';
+
+  const cleanImage = imageValue.trim();
+
+  // Se è già un URL completo (Cloudinary o altro), usalo direttamente
+  if (cleanImage.startsWith('http://') || cleanImage.startsWith('https://')) {
+    return cleanImage;
+  }
+
+  // Altrimenti costruisci l'URL Cloudinary
+  const filename = cleanImage.replace(/^\/+/, '');
+  return `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${filename}`;
+}
+
 // ==================== LOAD PROJECT DATA ====================
 async function loadProjectContent() {
   try {
@@ -57,28 +73,16 @@ function renderSection(section) {
         console.error('Missing image in full-width-image section:', section);
         return `
           <div class="section-image">
-            <p>Immagine non disponibile</p>
+            <p style="padding: 40px; text-align: center; color: #999;">Immagine non disponibile</p>
           </div>
         `;
       }
-      if (section.image) {
-        console.log('Raw image value:', section.image); // Debug
-        console.log('Is string?', typeof section.image === 'string'); // Debug
-      }
-      const imageValue = section.image ? section.image.trim() : '';
-      let imgSrc = imageValue;
 
-      if (!imageValue.startsWith('http')) {
-        // Fallback: prova a costruire l'URL di Cloudinary se è solo un nome file
-        // Nota: Cloudinary supporta URL senza versione
-        imgSrc = `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${imageValue}`;
-        console.log('⚠️ Using Cloudinary fallback URL:', imgSrc);
-      }
+      const imgSrc = getImageUrl(section.image);
 
-      console.log('Final rendering src:', imgSrc); // Debug
       return `
         <div class="section-image">
-          <img src="${imgSrc}" alt="Project image" class="project-image" onerror="console.error('Failed to load image:', this.src)">
+          <img src="${imgSrc}" alt="Project image" loading="lazy" onerror="this.parentElement.innerHTML='<p style=\\'padding: 40px; text-align: center; color: #999;\\'>Errore caricamento immagine</p>'">
         </div>
       `;
 
@@ -99,7 +103,7 @@ function renderSection(section) {
         console.error('ID video Vimeo mancante o non valido:', section.vimeoId);
         return `
           <div class="section-video">
-            <div class="vimeo-container" style="padding: 20px; text-align: center; background: #f5f5f5;">
+            <div class="vimeo-container" style="padding: 40px; text-align: center; background: #f5f5f5;">
               ID Video Vimeo non valido
             </div>
           </div>
@@ -108,13 +112,14 @@ function renderSection(section) {
 
       return `
         <div class="section-video">
-          <div class="vimeo-container" style="position: relative; padding-bottom: ${padding}; height: 0; overflow: hidden; max-width: 100%; margin: 3rem auto; background: #000; border-radius: 8px;">
+          <div class="vimeo-container" style="position: relative; padding-bottom: ${padding}; height: 0; overflow: hidden; max-width: 100%; background: #000;">
             <iframe 
               src="https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&background=1&muted=1" 
               style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
               frameborder="0" 
               allow="autoplay; fullscreen; picture-in-picture" 
               allowfullscreen="true"
+              loading="lazy"
             ></iframe>
           </div>
         </div>
@@ -161,17 +166,10 @@ async function loadOtherProjects() {
 
     const container = document.getElementById('other-projects-container');
     if (container && otherProjects.length > 0) {
-      // Aggiungi tutti i progetti in una volta sola
       const projectsHTML = otherProjects.map(project => {
-        // Trova la prima immagine full-width nelle sezioni o usa l'immagine principale
+        // Trova la prima immagine full-width nelle sezioni
         const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image;
-        const rawImage = firstImage || '';
-        const cleanImage = rawImage.trim();
-        let imageUrl = cleanImage;
-
-        if (cleanImage && !cleanImage.startsWith('http')) {
-          imageUrl = `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${cleanImage}`;
-        }
+        const imageUrl = getImageUrl(firstImage);
 
         return `
           <a href="/${project.slug}.html" class="project-item">
@@ -195,29 +193,13 @@ async function loadOtherProjects() {
   }
 }
 
-// ==================== BACK BUTTON ====================
-const backButton = document.querySelector('.back-button');
-if (backButton) {
-  backButton.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    // Se c'è una history, torna indietro
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      // Altrimenti vai alla homepage
-      window.location.href = '/';
-    }
-  });
-}
-
 // ==================== DARK MODE ====================
 const darkModeToggle = document.getElementById('darkModeToggle');
 const body = document.body;
 
-// Carica preferenza salvata
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
+// Carica preferenza salvata (usa la stessa chiave di main.js per consistenza)
+const savedDarkMode = localStorage.getItem('darkMode');
+if (savedDarkMode === 'true') {
   body.classList.add('dark-mode');
   if (darkModeToggle) darkModeToggle.classList.add('active');
 }
@@ -227,14 +209,11 @@ if (darkModeToggle) {
   darkModeToggle.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
     darkModeToggle.classList.toggle('active');
-
-    // Salva preferenza
-    const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
+    localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
   });
 }
 
-// ==================== SMOOTH SCROLL ====
+// ==================== SMOOTH SCROLL ====================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
@@ -251,7 +230,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', () => {
   loadProjectContent().then(() => {
-    // Se c'è una sezione "projects-list", carica gli altri progetti
     if (document.getElementById('other-projects-container')) {
       loadOtherProjects();
     }
