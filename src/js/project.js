@@ -158,8 +158,8 @@ async function loadOtherProjects() {
     if (container && otherProjects.length > 0) {
       // Aggiungi tutti i progetti in una volta sola
       const projectsHTML = otherProjects.map(project => {
-        // Trova la prima immagine full-width nelle sezioni o usa l'immagine principale
-        const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image || project.mainImage;
+        // Usa mainImage come priorità, altrimenti cerca la prima immagine full-width
+        const firstImage = project.mainImage || project.sections?.find(s => s.type === 'full-width-image')?.image;
         const rawImage = firstImage || '';
         const cleanImage = rawImage.trim();
         let imageUrl = cleanImage;

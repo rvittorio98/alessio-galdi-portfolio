@@ -36,8 +36,8 @@ async function loadProjects() {
       projectItem.className = 'project-item';
       projectItem.href = `${project.slug}.html`;
 
-      // Trova la prima immagine full-width nelle sezioni, oppure usa mainImage come fallback
-      const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image || project.mainImage;
+      // Usa mainImage come priorità, altrimenti cerca la prima immagine full-width
+      const firstImage = project.mainImage || project.sections?.find(s => s.type === 'full-width-image')?.image;
       let imageUrl = '';
       if (firstImage) {
         const cleanImage = firstImage.trim();
