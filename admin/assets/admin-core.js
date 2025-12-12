@@ -191,6 +191,7 @@ window.openModal = function (project = null) {
     projectForm.reset();
     document.getElementById('projectId').value = '';
     document.getElementById('projectSlug').value = '';
+    document.getElementById('mainImage').value = '';
     sectionsContainer.innerHTML = '';
   }
 
@@ -210,7 +211,7 @@ function populateForm(project) {
   document.getElementById('projectSlug').value = project.slug;
   document.getElementById('heroTitle').value = project.hero?.title || '';
   document.getElementById('heroDescription').value = project.hero?.description || '';
-
+  document.getElementById('mainImage').value = project.mainImage || '';
 
   sectionsContainer.innerHTML = '';
   if (project.sections) {
@@ -338,6 +339,33 @@ function renderSectionFields(type, data = null) {
 
 window.updateSectionFields = function (sectionId, type) {
   const fieldsContainer = document.getElementById(`fields-${sectionId}`);
+
+  // Check if there's existing data that would be lost
+  const existingFields = fieldsContainer.querySelectorAll('.section-field');
+  let hasData = false;
+  existingFields.forEach(field => {
+    if (field.value && field.value.trim()) {
+      hasData = true;
+    }
+  });
+
+  if (hasData) {
+    if (!confirm('Cambiando tipo sezione, i dati esistenti verranno persi. Continuare?')) {
+      // Revert the select to the previous value
+      const sectionEl = document.querySelector(`[data-section-id="${sectionId}"]`);
+      const typeSelect = sectionEl.querySelector('.section-type');
+      // Find the type from existing fields
+      const imageField = fieldsContainer.querySelector('[name="image"]');
+      const vimeoField = fieldsContainer.querySelector('[name="vimeoId"]');
+      const leftTitleField = fieldsContainer.querySelector('[name="leftTitle"]');
+
+      if (imageField) typeSelect.value = 'full-width-image';
+      else if (vimeoField) typeSelect.value = 'vimeo-video';
+      else if (leftTitleField) typeSelect.value = 'two-column-text';
+      return;
+    }
+  }
+
   fieldsContainer.innerHTML = renderSectionFields(type);
 }
 
@@ -435,11 +463,13 @@ projectForm.addEventListener('submit', async (e) => {
 
 
 
+    const mainImageValue = document.getElementById('mainImage').value.trim();
+
     const projectData = {
       name: nameValue,
       slug: slugValue,
       color: '#000000', // Colore predefinito
-
+      mainImage: mainImageValue,
       hero: {
         title: heroTitleValue,
         description: heroDescValue
@@ -450,7 +480,9 @@ projectForm.addEventListener('submit', async (e) => {
 
 
     const sectionElements = sectionsContainer.querySelectorAll('.section-item');
-    sectionElements.forEach(sectionEl => {
+    const validationErrors = [];
+
+    sectionElements.forEach((sectionEl, index) => {
       const typeSelect = sectionEl.querySelector('.section-type');
       const type = typeSelect.value;
 
@@ -458,13 +490,48 @@ projectForm.addEventListener('submit', async (e) => {
 
       const fields = sectionEl.querySelectorAll('.section-field');
       fields.forEach(field => {
-        if (field.value) {
-          section[field.name] = field.value;
+        if (field.value && field.value.trim()) {
+          section[field.name] = field.value.trim();
         }
       });
 
-      projectData.sections.push(section);
+      // Validate section has required content based on type
+      let isValid = true;
+      switch (type) {
+        case 'full-width-image':
+          if (!section.image) {
+            validationErrors.push(`Sezione ${index + 1} (Immagine): manca l'URL dell'immagine`);
+            isValid = false;
+          }
+          break;
+        case 'vimeo-video':
+          if (!section.vimeoId) {
+            validationErrors.push(`Sezione ${index + 1} (Video): manca l'ID del video Vimeo`);
+            isValid = false;
+          }
+          break;
+        case 'two-column-text':
+          if (!section.leftTitle && !section.leftContent && !section.rightTitle && !section.rightContent) {
+            validationErrors.push(`Sezione ${index + 1} (Testo): inserisci almeno un contenuto`);
+            isValid = false;
+          }
+          break;
+      }
+
+      if (isValid) {
+        projectData.sections.push(section);
+      }
     });
+
+    // Show validation errors if any
+    if (validationErrors.length > 0) {
+      const proceed = confirm(`Attenzione! Alcune sezioni non sono complete e verranno ignorate:\n\n${validationErrors.join('\n')}\n\nVuoi continuare comunque?`);
+      if (!proceed) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Salva Progetto';
+        return;
+      }
+    }
 
     // Aggiungi sempre la sezione projects-list alla fine
     projectData.sections.push({
@@ -536,6 +603,41 @@ newProjectBtn.addEventListener('click', () => window.openModal());
 closeModal.addEventListener('click', closeModalFn);
 cancelBtn.addEventListener('click', closeModalFn);
 addSectionBtn.addEventListener('click', () => window.addSection());
+
+// Upload handler for mainImage
+document.getElementById('uploadMainImageBtn').addEventListener('click', async () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const btn = document.getElementById('uploadMainImageBtn');
+    const originalText = btn.textContent;
+    btn.textContent = '⏳ Caricamento...';
+    btn.disabled = true;
+
+    try {
+      const result = await API.uploadImage(file);
+      if (result.success) {
+        document.getElementById('mainImage').value = result.url;
+        alert('Immagine principale caricata!');
+      } else {
+        alert('Errore: ' + result.message);
+      }
+    } catch (error) {
+      alert('Errore caricamento immagine');
+      console.error(error);
+    } finally {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+  };
+
+  input.click();
+});
 
 logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('adminToken');

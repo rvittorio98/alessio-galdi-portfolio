@@ -54,12 +54,8 @@ function renderSection(section) {
   switch (section.type) {
     case 'full-width-image':
       if (!section.image) {
-        console.error('Missing image in full-width-image section:', section);
-        return `
-          <div class="section-image">
-            <p>Immagine non disponibile</p>
-          </div>
-        `;
+        console.warn('Skipping full-width-image section: no image provided');
+        return ''; // Skip rendering - don't show broken placeholder
       }
       if (section.image) {
         console.log('Raw image value:', section.image); // Debug
@@ -96,14 +92,8 @@ function renderSection(section) {
       const videoId = section.vimeoId ? section.vimeoId.trim().replace(/\D/g, '') : '';
 
       if (!videoId) {
-        console.error('ID video Vimeo mancante o non valido:', section.vimeoId);
-        return `
-          <div class="section-video">
-            <div class="vimeo-container" style="padding: 20px; text-align: center; background: #f5f5f5;">
-              ID Video Vimeo non valido
-            </div>
-          </div>
-        `;
+        console.warn('Skipping vimeo-video section: no valid ID');
+        return ''; // Skip rendering
       }
 
       return `
@@ -121,15 +111,20 @@ function renderSection(section) {
       `;
 
     case 'two-column-text':
+      // Skip if completely empty
+      if (!section.leftTitle && !section.leftContent && !section.rightTitle && !section.rightContent) {
+        console.warn('Skipping empty two-column-text section');
+        return '';
+      }
       return `
         <div class="section-text-columns">
           <div class="text-column">
             ${section.leftTitle ? `<h3>${section.leftTitle}</h3>` : ''}
-            <p>${section.leftContent || ''}</p>
+            ${section.leftContent ? `<p>${section.leftContent}</p>` : ''}
           </div>
           <div class="text-column">
             ${section.rightTitle ? `<h3>${section.rightTitle}</h3>` : ''}
-            <p>${section.rightContent || ''}</p>
+            ${section.rightContent ? `<p>${section.rightContent}</p>` : ''}
           </div>
         </div>
       `;
