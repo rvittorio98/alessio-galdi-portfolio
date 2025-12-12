@@ -36,8 +36,8 @@ async function loadProjects() {
       projectItem.className = 'project-item';
       projectItem.href = `${project.slug}.html`;
 
-      // Trova la prima immagine full-width nelle sezioni
-      const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image;
+      // Trova la prima immagine full-width nelle sezioni, oppure usa mainImage come fallback
+      const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image || project.mainImage;
       let imageUrl = '';
       if (firstImage) {
         const cleanImage = firstImage.trim();
@@ -48,6 +48,9 @@ async function loadProjects() {
         }
       }
 
+      // Fallback: usa un placeholder se non c'è immagine
+      const finalImageUrl = imageUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23e0e0e0" width="100" height="100"/%3E%3C/svg%3E';
+
       projectItem.innerHTML = `
         <div class="project-content">
           <div class="project-name">${project.name}</div>
@@ -57,7 +60,7 @@ async function loadProjects() {
             <line x1="190" y1="50" x2="140" y2="100" stroke="currentColor" stroke-width="2"/>
           </svg>
         </div>
-        <div class="project-image" style="background-image: url('${imageUrl}');"></div>
+        <div class="project-image" style="background-image: url('${finalImageUrl}');"></div>
       `;
 
       projectsList.appendChild(projectItem);

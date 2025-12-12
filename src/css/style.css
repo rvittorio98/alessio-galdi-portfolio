@@ -293,10 +293,10 @@ body.dark-mode footer {
 
 /* ==================== PROJECT PAGE - HERO & DESCRIPTION ==================== */
 
-/* Hero Section - stessi margini della home */
+/* Hero Section */
 .project-hero,
 #hero {
-  padding: var(--spacing-lg) var(--pad);
+  padding: var(--spacing-lg) var(--pad) 0;
   text-align: left;
   margin-top: 0;
 }
@@ -315,11 +315,10 @@ body.dark-mode footer {
   max-width: 100%;
 }
 
-/* Description Section - eredita padding dal contenitore */
+/* Description Section */
 .project-description-section,
 #hero .hero-description {
-  padding: 0;
-  margin-top: var(--spacing-sm);
+  padding: 0 0 var(--spacing-lg);
 }
 
 .project-description-text,
@@ -637,10 +636,10 @@ body.dark-mode .project-credits-section {
     line-height: var(--line-height-mobile);
   }
 
-  /* Project Page - Hero (stessi margini della home) */
+  /* Project Page - Hero */
   .project-hero,
   #hero {
-    padding: var(--spacing-lg) var(--pad-m);
+    padding: var(--spacing-md) var(--pad-m) 0;
   }
 
   .project-hero-title,
@@ -651,8 +650,7 @@ body.dark-mode .project-credits-section {
 
   .project-description-section,
   #hero .hero-description {
-    padding: 0;
-    margin-top: var(--spacing-xs);
+    padding: var(--spacing-xs) 0 var(--spacing-md);
   }
 
   .project-description-text,
@@ -672,32 +670,11 @@ body.dark-mode .project-credits-section {
   }
 
   /* Two Columns */
-  .project-two-column-section {
-    padding: 0;
-    /* Resetta padding del contenitore esterno su mobile */
-    margin: 0;
-  }
-
   .two-column-container,
   .section-text-columns {
     grid-template-columns: 1fr;
-    gap: var(--spacing-sm);
-    padding: 0 var(--pad-m) var(--spacing-lg);
-    /* Allineato con hero description */
-  }
-
-  .text-column h3,
-  .column-title {
-    font-size: 20px;
-    /* Ridotto per mobile */
-    margin-bottom: 10px;
-  }
-
-  .text-column p,
-  .column-text {
-    font-size: 18px;
-    /* Ridotto per mobile */
-    line-height: 1.4;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) var(--pad-m);
   }
 
   /* Projects List */

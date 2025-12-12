@@ -164,7 +164,7 @@ async function loadOtherProjects() {
       // Aggiungi tutti i progetti in una volta sola
       const projectsHTML = otherProjects.map(project => {
         // Trova la prima immagine full-width nelle sezioni o usa l'immagine principale
-        const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image;
+        const firstImage = project.sections?.find(s => s.type === 'full-width-image')?.image || project.mainImage;
         const rawImage = firstImage || '';
         const cleanImage = rawImage.trim();
         let imageUrl = cleanImage;
@@ -172,6 +172,9 @@ async function loadOtherProjects() {
         if (cleanImage && !cleanImage.startsWith('http')) {
           imageUrl = `https://res.cloudinary.com/dhrgsvmn5/image/upload/portfolio-galdi/${cleanImage}`;
         }
+
+        // Fallback: usa un placeholder se non c'è immagine
+        const finalImageUrl = imageUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23e0e0e0" width="100" height="100"/%3E%3C/svg%3E';
 
         return `
           <a href="/${project.slug}.html" class="project-item">
@@ -183,7 +186,7 @@ async function loadOtherProjects() {
                 <line x1="190" y1="50" x2="140" y2="100" stroke="currentColor" stroke-width="2"/>
               </svg>
             </div>
-            <div class="project-image" style="background-image: url('${imageUrl}')"></div>
+            <div class="project-image" style="background-image: url('${finalImageUrl}')"></div>
           </a>
         `;
       }).join('');
