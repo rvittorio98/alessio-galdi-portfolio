@@ -304,6 +304,50 @@ function renderSectionFields(type, data = null) {
       `;
 
     case 'two-column-text':
+      // Genera ID univoci per gli editor Quill
+      const leftEditorId = `quill-left-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const rightEditorId = `quill-right-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Schedula l'inizializzazione di Quill dopo che il DOM è stato aggiornato
+      setTimeout(() => {
+        const leftContainer = document.getElementById(leftEditorId);
+        const rightContainer = document.getElementById(rightEditorId);
+
+        if (leftContainer && !leftContainer.quillInitialized) {
+          const leftQuill = new Quill(`#${leftEditorId}`, {
+            theme: 'snow',
+            modules: {
+              toolbar: [
+                ['bold', 'italic', 'underline'],
+                ['link'],
+                [{ 'header': [1, 2, 3, false] }],
+                ['clean']
+              ]
+            },
+            placeholder: 'Scrivi il contenuto...'
+          });
+          leftContainer.quillInitialized = true;
+          leftContainer.quillInstance = leftQuill;
+        }
+
+        if (rightContainer && !rightContainer.quillInitialized) {
+          const rightQuill = new Quill(`#${rightEditorId}`, {
+            theme: 'snow',
+            modules: {
+              toolbar: [
+                ['bold', 'italic', 'underline'],
+                ['link'],
+                [{ 'header': [1, 2, 3, false] }],
+                ['clean']
+              ]
+            },
+            placeholder: 'Scrivi il contenuto...'
+          });
+          rightContainer.quillInitialized = true;
+          rightContainer.quillInstance = rightQuill;
+        }
+      }, 100);
+
       return `
         <div class="two-columns-editor">
           <div class="column">
@@ -313,7 +357,7 @@ function renderSectionFields(type, data = null) {
             </div>
             <div class="form-group">
               <label>Contenuto Colonna Sinistra</label>
-              <textarea class="section-field" name="leftContent" rows="8">${data?.leftContent || ''}</textarea>
+              <div id="${leftEditorId}" class="quill-editor section-field-quill" data-name="leftContent" style="min-height: 150px;">${data?.leftContent || ''}</div>
             </div>
           </div>
           <div class="column">
@@ -323,7 +367,7 @@ function renderSectionFields(type, data = null) {
             </div>
             <div class="form-group">
               <label>Contenuto Colonna Destra</label>
-              <textarea class="section-field" name="rightContent" rows="8">${data?.rightContent || ''}</textarea>
+              <div id="${rightEditorId}" class="quill-editor section-field-quill" data-name="rightContent" style="min-height: 150px;">${data?.rightContent || ''}</div>
             </div>
           </div>
         </div>
@@ -488,10 +532,24 @@ projectForm.addEventListener('submit', async (e) => {
 
       const section = { type };
 
+      // Raccolta campi standard (input, select)
       const fields = sectionEl.querySelectorAll('.section-field');
       fields.forEach(field => {
         if (field.value && field.value.trim()) {
           section[field.name] = field.value.trim();
+        }
+      });
+
+      // Raccolta campi Quill (editor rich text)
+      const quillEditors = sectionEl.querySelectorAll('.section-field-quill');
+      quillEditors.forEach(editorDiv => {
+        const fieldName = editorDiv.dataset.name;
+        if (editorDiv.quillInstance) {
+          const htmlContent = editorDiv.quillInstance.root.innerHTML;
+          // Salva solo se c'è contenuto (non vuoto o solo tag vuoti)
+          if (htmlContent && htmlContent !== '<p><br></p>' && htmlContent.trim() !== '') {
+            section[fieldName] = htmlContent;
+          }
         }
       });
 

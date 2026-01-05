@@ -28,7 +28,6 @@ async function loadProjectContent() {
     if (heroSection && project.hero) {
       heroSection.innerHTML = `
         <div class="hero-content">
-          <h1 class="hero-title">${project.hero.title || project.name}</h1>
           <p class="hero-description">${project.hero.description || ''}</p>
         </div>
       `;
@@ -120,11 +119,11 @@ function renderSection(section) {
         <div class="section-text-columns">
           <div class="text-column">
             ${section.leftTitle ? `<h3>${section.leftTitle}</h3>` : ''}
-            ${section.leftContent ? `<p>${section.leftContent}</p>` : ''}
+            ${section.leftContent ? `<div class="rich-text-content">${section.leftContent}</div>` : ''}
           </div>
           <div class="text-column">
             ${section.rightTitle ? `<h3>${section.rightTitle}</h3>` : ''}
-            ${section.rightContent ? `<p>${section.rightContent}</p>` : ''}
+            ${section.rightContent ? `<div class="rich-text-content">${section.rightContent}</div>` : ''}
           </div>
         </div>
       `;

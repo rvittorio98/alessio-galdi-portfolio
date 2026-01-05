@@ -5,8 +5,8 @@
   --pad-m: 20px;
   --spacing-xs: 20px;
   --spacing-sm: 40px;
-  --spacing-md: 60px;
-  --spacing-lg: 80px;
+  --spacing-md: 40px;
+  --spacing-lg: 50px;
   --spacing-xl: 120px;
 
   /* Header & Footer */
@@ -176,6 +176,52 @@ main {
   letter-spacing: -0.6px;
 }
 
+/* Hero Text Links with Colored Hover */
+.hero-text a {
+  color: inherit;
+  font-family: "aktiv-grotesk", sans-serif;
+  /* Usiamo la famiglia principale che ha il bold */
+  font-weight: 200;
+  /* Forziamo il peso 200 (sperando sia incluso nel kit) */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  /* Sottolineatura sottile */
+  text-underline-offset: 4px;
+  /* Distanza dal testo */
+  transition: color var(--transition-base);
+}
+
+.hero-text a:hover {
+  font-weight: 700;
+}
+
+.hero-text a.link-landor:hover {
+  color: #0066FF;
+}
+
+.hero-text a.link-dad:hover {
+  color: #FFD700;
+}
+
+.hero-text a.link-cannes:hover {
+  color: #FF0000;
+}
+
+/* Header Links */
+.header-left a,
+.header-right a,
+.nav-text a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--transition-base);
+}
+
+.header-left a:hover,
+.header-right a:hover,
+.nav-text a:hover {
+  opacity: 0.7;
+}
+
 /* ==================== PROJECTS LIST ==================== */
 .projects-section {
   margin-top: var(--spacing-md);
@@ -341,13 +387,19 @@ body.dark-mode footer {
 .project-full-image,
 .section-image {
   width: 100%;
-  margin: var(--spacing-xs) 0 0 0;
+  margin: 20px 0 0 0;
   padding: 0;
 }
 
 .project-full-image:first-of-type,
 .section-image:first-of-type {
   margin-top: 0;
+}
+
+/* Force margin between consecutive images */
+.section-image+.section-image,
+.project-full-image+.project-full-image {
+  margin-top: 20px !important;
 }
 
 .project-full-image img,
@@ -431,6 +483,61 @@ body.dark-mode footer {
   line-height: var(--line-height-body);
   margin-bottom: 0;
   white-space: pre-wrap;
+}
+
+/* Rich Text Content Styles */
+.rich-text-content {
+  font-family: "aktiv-grotesk-thin", sans-serif;
+  font-weight: 200;
+  font-size: var(--font-body-desktop);
+  line-height: var(--line-height-body);
+}
+
+.rich-text-content p {
+  margin-bottom: 1em;
+}
+
+.rich-text-content p:last-child {
+  margin-bottom: 0;
+}
+
+.rich-text-content strong,
+.rich-text-content b {
+  font-family: "aktiv-grotesk", sans-serif;
+  font-weight: 700;
+}
+
+.rich-text-content em,
+.rich-text-content i {
+  font-style: italic;
+}
+
+.rich-text-content u {
+  text-decoration: underline;
+}
+
+.rich-text-content a {
+  color: inherit;
+  text-decoration: underline;
+  transition: opacity var(--transition-base);
+}
+
+.rich-text-content a:hover {
+  opacity: 0.7;
+}
+
+.rich-text-content h1,
+.rich-text-content h2,
+.rich-text-content h3 {
+  font-family: "aktiv-grotesk", sans-serif;
+  font-weight: 700;
+  margin: 1em 0 0.5em;
+}
+
+.rich-text-content h1:first-child,
+.rich-text-content h2:first-child,
+.rich-text-content h3:first-child {
+  margin-top: 0;
 }
 
 .column-button,
