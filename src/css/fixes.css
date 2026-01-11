@@ -35,3 +35,29 @@
         margin-right: 0;
     }
 }
+
+/* Mobile: margini ridotti tra le immagini */
+@media (max-width: 768px) {
+    .section-image {
+        margin-top: 10px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .section-image:first-child {
+        margin-top: 0 !important;
+    }
+
+    /* Video: stessi margini delle immagini */
+    .section-video {
+        margin: 10px 0 0 0 !important;
+    }
+
+    .section-video:first-child {
+        margin-top: 0 !important;
+    }
+
+    .vimeo-container {
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+}

@@ -97,7 +97,7 @@ function renderSection(section) {
 
       return `
         <div class="section-video">
-          <div class="vimeo-container" style="position: relative; padding-bottom: ${padding}; height: 0; overflow: hidden; max-width: 100%; margin: 3rem auto; background: #000; border-radius: 8px;">
+          <div class="vimeo-container" style="position: relative; padding-bottom: ${padding}; height: 0; overflow: hidden; max-width: 100%; background: #000;">
             <iframe 
               src="https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&background=1&muted=1" 
               style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
